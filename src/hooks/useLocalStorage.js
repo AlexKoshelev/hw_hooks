@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
+/* js doc */
+/**
+ *
+ * @param {string} storageKey
+ * @returns
+ */
+export function useLocalStorage(storageKey, initialValue = undefined) {
+  const [storageValue, setStorageValue] = useState(initialValue);
 
-export function useLocalStorage(value) {
-  const [token, setToken] = useState(value);
   useEffect(() => {
-    localStorage.setItem("token", JSON.stringify(token));
-  }, [token]);
-  function setItem(newToken) {
-    setToken(newToken);
+    localStorage.setItem(storageKey, JSON.stringify(storageValue));
+  }, [storageValue, storageKey]);
+
+  function setItem(newValue) {
+    setStorageValue(newValue);
   }
+
   function removeItem() {
-    localStorage.removeItem("token");
-    setToken("");
+    localStorage.removeItem(storageKey);
+    setStorageValue(undefined);
   }
-  return [token, { setItem, removeItem }];
+
+  return [storageValue, { setItem, removeItem }];
 }
